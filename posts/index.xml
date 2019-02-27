@@ -6,10 +6,19 @@
     <description>Recent content in Posts on boksasp.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Feb 2019 23:03:24 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 27 Feb 2019 23:45:34 +0100</lastBuildDate>
     
 	<atom:link href="https://boksasp.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Post2</title>
+      <link>https://boksasp.github.io/posts/post2/</link>
+      <pubDate>Wed, 27 Feb 2019 23:45:34 +0100</pubDate>
+      
+      <guid>https://boksasp.github.io/posts/post2/</guid>
+      <description>Trying to deploy new changes.</description>
+    </item>
     
     <item>
       <title>First Post</title>
@@ -17,7 +26,7 @@
       <pubDate>Wed, 27 Feb 2019 23:03:24 +0100</pubDate>
       
       <guid>https://boksasp.github.io/posts/first-post/</guid>
-      <description>post first post</description>
+      <description>Testing  Testing iframes in hugo and deploying updated posts.</description>
     </item>
     
   </channel>
