@@ -12,7 +12,7 @@ I don't want to add host file entries for all my services on all my devices, so 
  which I installed [Pi-hole](https://pi-hole.net/) on. 
 
 For serving the different services, I decided to use the Nginx web server. By adding a new server block for each service,
- I'm able to forward requests to specific domains to a specific \<address\>:\<port\> with `proxy_pass`. If your using the Apache web server,
+ I'm able to forward requests to specific domains to a specific \<address\>:\<port\> with `proxy_pass`. If you're using the Apache web server,
  the same can be achieved by using virtual hosts.
 
 I tested the whole thing with two "hello-world" type node apps running on different ports.
@@ -60,10 +60,10 @@ server {
 
 I ended up using port `8080` because I had some issues using port `80` without changing the default route of Nginx. It kept giving me the "Welcome to nginx!" page.
 
-I couldn't be assed digging any deeper, so I just changed to `8080`.
+I couldn't be assed digging any deeper, so I just changed to `8080`. Make sure to restart nginx after modifying the configuration.
 
 ### Node apps
-I started up two node apps just so I could have something to test against.
+I started up two node apps just so I could have something to test against. These apps are running on the same Windows desktop that Nginx is running on.
 
 ```javascript
 const http = require('http');
@@ -80,16 +80,18 @@ server.listen(port, host, () => {
 });
 ```
 
+And with the node apps and nginx running, I was able to access both web apps from any device on my local network. One on `http://test1.home` and the other on `http://test2.home` 🚀
+
 # Notes
 
 ❗ **Troubleshooting notes on Local DNS Records**  
-The first DNS record I tried was test1.local. It worked like a charm when I was testing it from my Windows computer, where the apps where running.
+The first DNS record I tried was `test1.local`. It worked like a charm when I was testing it from my Windows computer, where the apps where running.
 
 But when testing how it resolved over the network, I used my MacBook. Turns out Mac OS doesn't use the network assigned DNS server when
  resolving `*.local` domains, so I just got a DNS error. It turns out Apple devices
- use `.local` for `bonjour`, an implementation of zero-configuration networking (zeroconf) used for local network service discovery and **name resolution**.
+ use `.local` for `bonjour`, an implementation of zero-configuration networking (zeroconf) used for local network service discovery and _name resolution_.
 
 Bad idea to use that as a custom local domain name with a lot of Apple devices...
 
-Zeroconf isn't an Apple-only technology, so it's a bad idea for anyone.  
+Zeroconf isn't an Apple-only concept, so it's a bad idea for anyone.  
 More info here [https://en.wikipedia.org/wiki/.local](https://en.wikipedia.org/wiki/.local)
