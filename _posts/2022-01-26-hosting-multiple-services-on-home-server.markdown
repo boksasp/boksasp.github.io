@@ -62,6 +62,8 @@ I ended up using port `8080` because I had some issues using port `80` without c
 
 I couldn't be assed digging any deeper, so I just changed to `8080`. Make sure to restart nginx after modifying the configuration.
 
+_**edit 27.01.2021:** I just had to remove the default server block from `nginx.conf` that listened on port 80. When running nginx on mac or linux, the default config file is located in `$NGINX_HOME/sites-available/default`._
+
 ### Node apps
 I started up two node apps just so I could have something to test against. These apps are running on the same Windows desktop that Nginx is running on.
 
@@ -82,6 +84,8 @@ server.listen(port, host, () => {
 
 And with the node apps and nginx running, I was able to access both web apps from any device on my local network. One on `http://test1.home` and the other on `http://test2.home` 🚀
 
+![test1.home in browser from device on network](/assets/2022-01-26/test1.home.png)
+![test2.home in browser from device on network](/assets/2022-01-26/test2.home.png)
 # Notes
 
 ❗ **Troubleshooting notes on Local DNS Records**  
