@@ -12,7 +12,7 @@ I don't want to add host file entries for all my services on all my devices, so 
  which I installed [Pi-hole](https://pi-hole.net/) on. 
 
 For serving the different services, I decided to use the Nginx web server. By adding a new server block for each service,
- I'm able to forward requests to specific domains to a specific \<address\>:\<port\> with `proxy_pass`. If you're using the Apache web server,
+ I'm able to forward requests for specific domains to a specific address and port with `proxy_pass`. If you're using the Apache web server,
  the same can be achieved by using virtual hosts.
 
 I tested the whole thing with two "hello-world" type node apps running on different ports.
@@ -28,14 +28,14 @@ Summary:
 I'm using a default installation of Pi-hole. I turned all the privacy settings to the strictest setting,
  as I don't want to monitor all my family's network activities (Settings -> Privacy -> Anonymous mode).
 
-The only other change I did to Pi-hole was to add two local DNS records.
+The only other change I did to Pi-hole was to add two local DNS records, each pointing to my Windows desktop.
 
 1. test1.home -> 192.168.86.213
 2. test2.home -> 192.168.86.213
 
 **Main router DNS**  
 For all the devices on my home network to go through Pi-hole, I set the primary DNS on my Google Wifi router
- to my Raspberry Pi address.
+ to my Raspberry Pi address. I also gave the Raspberry Pi a static IP.
 
 I'm so impressed by the Raspberry Pi handling all that traffic without noticably slowing down the network 🤩
 
@@ -43,26 +43,32 @@ I'm so impressed by the Raspberry Pi handling all that traffic without noticably
 I ran the web server on my Windows desktop computer for testing purposes.  
 Standard installation of Nginx for Windows. It doesn't run as a service, so I have to start it through the nginx executable provided with the install.
 
-I added a server block for each of the node apps I was to run on the server:
+To `nginx.conf` I added a server block for each of the node apps I was to run on the server:
 
 ```conf
-# Add one for each app
+# nginx.conf
+
+...
+
 server {
-    listen 8080;
-    server_name test1.home; # or test2.home
+    listen 80;
+    server_name test1.home;
 
     location / {
-        proxy_pass http://127.0.0.1:3031; # or :3032
+        proxy_pass http://127.0.0.1:3031;
+    }
+}
+
+server {
+    listen 80;
+    server_name test2.home;
+
+    location / {
+        proxy_pass http://127.0.0.1:3032;
     }
 }
 
 ```
-
-I ended up using port `8080` because I had some issues using port `80` without changing the default route of Nginx. It kept giving me the "Welcome to nginx!" page.
-
-I couldn't be assed digging any deeper, so I just changed to `8080`. Make sure to restart nginx after modifying the configuration.
-
-_**edit 27.01.2021:** I just had to remove the default server block from `nginx.conf` that listened on port 80. When running nginx on mac or linux, the default config file is located in `$NGINX_HOME/sites-available/default`._
 
 ### Node apps
 I started up two node apps just so I could have something to test against. These apps are running on the same Windows desktop that Nginx is running on.
